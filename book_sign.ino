@@ -1,10 +1,5 @@
 // include the library code:
 #include <LiquidCrystal.h>
-#include <Wire.h>
- 
-#define REDLIGHT 3
-#define GREENLIGHT 5
-#define BLUELIGHT 6
 
 // Buffer to store incoming commands from serial port
 String inData;
@@ -24,10 +19,6 @@ void setup() {
   
   // intial screen reads
   lcd.print("Waiting for book");
-
-  // RGB backlight mode  
-  pinMode(GREENLIGHT, HIGH);
-
 }
 
 void loop() {
