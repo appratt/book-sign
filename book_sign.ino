@@ -10,6 +10,8 @@
 String inData; // Buffer to store incoming commands from serial port
 String title;
 String author;
+int delimiterIndex; // use * as delimiter
+int secondDelimiterIndex;
 //int brightness = 255; // intitial brightness for LCD
 
 
@@ -35,8 +37,7 @@ void setup() {
 }
 
 void loop() {
-  
-  
+   
   // next three lines needs revision
   // would be better to test the length of the inData to see if longer than 16 chars
   //if it is longer, then lcd.autoscroll() else, lcd.noAutoscroll
@@ -44,11 +45,14 @@ void loop() {
   lcd.setCursor(0, 0);
   lcd.print(title);
   
+  lcd.noAutoscroll();
   lcd.setCursor(0, 1);
   lcd.print(author);
   
-  delay(1000);
-  
+  delay(1800);
+      
+  //lcd.setCursor(0, 1);
+    
   while (Serial.available() > 0){
         char recieved = Serial.read();
         
@@ -56,31 +60,28 @@ void loop() {
         // for the string sent from the Python script
         // then will have to split the string and print one part on (0,0) and another on (0,1)
         
-        if (recieved != '*' && recieved !='\n'){
+        if (recieved !='|'){
           inData += recieved;
-          inData = title;
-          inData = '\0';
-          Serial.print(title);
-          Serial.print(recieved);
-          
-        }
-        
-        if (recieved != '\n'){
-          inData += recieved;
-          inData = author;
-          Serial.print(author);
         }
         
         // want to try and split into two variables: title and author, using a special char...
 
         // Process message when new line character is recieved
-        if (recieved == '\n')
-        {
-            Serial.print("Arduino Received: ");
-            //Serial.print(inData);
-            //Serial.print(title);
-            //Serial.print(author);
-            lcd.clear();
+        if (recieved == '|'){
+          
+          // for explanation of the code below, see: http://stackoverflow.com/questions/11068450/arduino-c-language-parsing-string-with-delimiter-input-through-serial-interfa
+          // use the indexOf function to count to the index points within a string and find a delimiter
+          delimiterIndex = inData.indexOf('*');
+          secondDelimiterIndex = inData.indexOf('*', delimiterIndex+1);
+          // select substrings of a string using the index found with the delimiter 
+          title = inData.substring(0, delimiterIndex); 
+          author = inData.substring(delimiterIndex+1, secondDelimiterIndex);
+          Serial.print("BOOK TITLE: ");
+          //Serial.print(inData);
+          Serial.print(title);
+          Serial.print("BOOK AUTHOR: ");
+          Serial.print(author);
+          lcd.clear();
             
         }
     }

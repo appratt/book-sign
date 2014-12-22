@@ -15,7 +15,7 @@ def get_title():
 	global title
 	print "What is the title of your book?"
 	title = raw_input("Title: ")
-	title = title + "*"
+	title = title + "* by "
 
 	print title
 
@@ -26,13 +26,15 @@ def get_author():
 	print "Who is the author of your book?" 
 	author = raw_input("Author:\n")
 
-	print author + "\n"
+	print author
 
 
 def send_to_serial():
 
 	# combine the title and the author together
-	bookInfo = title + author
+	bookInfo = title + author + "|"
+
+	print "information sent to serial: " + bookInfo
 
 	PORT = '/dev/tty.usbmodem1411'
 
