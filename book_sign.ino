@@ -1,8 +1,15 @@
 // include the library code:
 #include <LiquidCrystal.h>
+#include <Wire.h>
+ 
+// pin assignments for RGB LCD control
+#define REDLIGHT 3
+#define GREENLIGHT 5
+#define BLUELIGHT 6
 
-// Buffer to store incoming commands from serial port
-String inData;
+String inData; // Buffer to store incoming commands from serial port
+int brightness = 255; // intitial brightness for LCD
+
 
 // initialize the library with the numbers of the interface pins
 // pin assignments form here: https://learn.adafruit.com/character-lcds/using-a-character-lcd
@@ -19,6 +26,10 @@ void setup() {
   
   // intial screen reads
   lcd.print("Waiting for book");
+  
+  // RGB backlight mode  
+  pinMode(GREENLIGHT, 100);
+
 }
 
 void loop() {
@@ -41,6 +52,8 @@ void loop() {
         if (recieved != '\n'){
           inData += recieved;
         }
+        
+        // want to try and split into two variables: title and author, using a special char...
 
         // Process message when new line character is recieved
         if (recieved == '\n')
