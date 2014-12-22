@@ -17,16 +17,16 @@ def get_title():
 	title = raw_input("Title: ")
 	title = title + "* by "
 
-	print title
+	#print title
 
 
 def get_author():
 	# ask for a author
 	global author
 	print "Who is the author of your book?" 
-	author = raw_input("Author:\n")
+	author = raw_input("Author: ")
 
-	print author
+	#print author
 
 
 def send_to_serial():
