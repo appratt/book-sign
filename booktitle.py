@@ -6,27 +6,33 @@ import time
 #import datetime
 os.system('clear') # This clears the terminal window to give a nice, clean space for writing.
 
+# setting values for global variable in case needed for debugging
 title = 'book title'
+author = 'book author'
 
 def get_title():
 	# ask for a title
 	global title
 	print "What is the title of your book?"
 	title = raw_input("Title: ")
-	title = title + "\n"
+	title = title + "*"
 
 	print title
 
 
 def get_author():
 	# ask for a author
+	global author
 	print "Who is the author of your book?" 
 	author = raw_input("Author:\n")
 
-	print author
+	print author + "\n"
 
 
 def send_to_serial():
+
+	# combine the title and the author together
+	bookInfo = title + author
 
 	PORT = '/dev/tty.usbmodem1411'
 
@@ -40,8 +46,8 @@ def send_to_serial():
 	# for the string sent from the Python script
 	# then will have to split the string and print one part on (0,0) and another on (0,1)
 	
-	# write the title to the serial output
-	ser.write(title)
+	# write the combined title and author to the serial output
+	ser.write(bookInfo)
 
 
 def print_howto():
@@ -54,6 +60,7 @@ def print_howto():
 
 print_howto()
 get_title()
+get_author()
 send_to_serial()
 
 
